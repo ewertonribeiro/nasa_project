@@ -1,0 +1,21 @@
+{
+  "name": "nasa_project_api",
+  "version": "1.0.0",
+  "description": "Nasa Mission Control",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "watch": "nodemon ."
+  },
+  "author": "Ewerton Ribeiro",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "csv-parse": "^5.0.4",
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
