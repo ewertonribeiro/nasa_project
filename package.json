@@ -1,0 +1,25 @@
+{
+  "name": "nasa_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "npm run watch --prefix server",
+    "client": "npm start --prefix nasa-front-end",
+    "watch": "npm run server & npm run client",
+    "install-server": "npm i --prefix server",
+    "install-client": "npm i --prefix nasa-front-end",
+    "install": "npm run install-server && npm run install-client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ewertonribeiro/nasa_project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ewertonribeiro/nasa_project/issues"
+  },
+  "homepage": "https://github.com/ewertonribeiro/nasa_project#readme"
+}
