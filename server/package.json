@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "watch": "nodemon ."
+    "watch": "nodemon .",
+    "start": "node ."
   },
   "author": "Ewerton Ribeiro",
   "license": "MIT",

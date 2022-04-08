@@ -1,6 +1,6 @@
 
 
-import { planets } from "../models/planets.js";
+import Model from "../models/planets.model.js";
 
 class planetsController {
 
@@ -8,7 +8,7 @@ class planetsController {
   async handle(req, res) {
 
 
-    return res.status(200).json(planets)
+    return res.status(200).json(Model.getAllPlanets());
 
   }
 }
