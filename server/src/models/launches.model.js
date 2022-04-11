@@ -61,6 +61,32 @@ class launchesModel {
   }
 
 
+  launchExists(flightNumber) {
+
+    const launch = launches.has(flightNumber);
+
+    if (!launch) {
+
+      return false;
+    } else {
+      return true;
+    }
+
+
+  }
+
+  abortLaunch(flightNumber) {
+
+    const aborted = launches.get(flightNumber);
+
+    aborted.success = false;
+    aborted.upcoming = false;
+
+    return aborted;
+
+  }
+
+
 }
 
 
