@@ -5,14 +5,10 @@ const habitablePlanets = [];
 
 //Funcao resonsavel por verificar quais mundos sao habitaveis
 function isHabitable(planet) {
-
   const result = planet.koi_disposition === "CONFIRMED" && planet.koi_insol > 0.36 && planet.koi_insol < 1.11 && planet.koi_prad < 1.6;
 
-
   return result;
-
 }
-
 
 //funcao resonsavel por ler os dados do arquivo csv e converter em json e verificar quais sao possivelmente habitaveis
 function loadPlanetsData() {
@@ -39,9 +35,5 @@ function loadPlanetsData() {
   })
 
 }
-
-
-
-
 
 export { habitablePlanets, loadPlanetsData }

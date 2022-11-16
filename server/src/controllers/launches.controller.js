@@ -3,7 +3,7 @@ import Model from "../models/launches.model.js";
 
 class launchesController {
 
-  async getAll(req, res) {
+  async getAll(_, res) {
 
     return res.status(200).json(Model.getAllLaunches());
   }
@@ -27,14 +27,10 @@ class launchesController {
       return res.status(404).json({ error: "Launch Not Found" });
     }
 
-
     const aborted = Model.abortLaunch(flightNumber);
 
 
     return res.status(200).json(aborted);
-
-
-
   }
 }
 
