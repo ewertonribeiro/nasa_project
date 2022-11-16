@@ -17,19 +17,18 @@ let latestFlightNumber = 0;
 class Launch {
   mission;
   rocket;
-  destination;
+  target;
   launchDate;
 
   flightNumber;
   custumer;
   upcoming;
-  success
+  success;
 
   constructor(launch) {
-
     this.mission = launch.mission;
     this.rocket = launch.rocket;
-    this.destination = launch.destination;
+    this.target = launch.target;
     this.launchDate = new Date(launch.launchDate);
 
     this.custumer = ["ZTM", "NASA"];
@@ -37,60 +36,41 @@ class Launch {
     this.flightNumber = latestFlightNumber += 1;
     this.success = true;
   }
-
 }
 
 class launchesModel {
-
-
   getAllLaunches() {
-
-    return Array.from(launches.values())
+    return Array.from(launches.values());
   }
 
-
   creatrNewlaunche(launch) {
-
-    const newLaunch = new Launch(launch)
-
+    const newLaunch = new Launch(launch);
 
     launches.set(newLaunch.flightNumber, newLaunch);
-
 
     return newLaunch;
   }
 
-
   launchExists(flightNumber) {
-
     const launch = launches.has(flightNumber);
 
     if (!launch) {
-
       return false;
     } else {
       return true;
     }
-
-
   }
 
   abortLaunch(flightNumber) {
-
     const aborted = launches.get(flightNumber);
 
     aborted.success = false;
     aborted.upcoming = false;
 
     return aborted;
-
   }
-
-
 }
 
-
-const LaunchesModel = new launchesModel()
-
+const LaunchesModel = new launchesModel();
 
 export default LaunchesModel;
