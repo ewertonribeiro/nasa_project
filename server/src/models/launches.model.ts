@@ -1,32 +1,19 @@
 const launches = new Map();
 
-// const launch = {
-//   flightNumber: 100,
-//   mission: "Kepler 1",
-//   rocket: "Explorer",
-//   launchDate: new Date("October 18, 2023"),
-//   destination: "Kepler-1652 b",
-//   custumer: ["ztm , NASA"],
-//   upcoming: true,
-//   success: true,
-
-// }
-
 let latestFlightNumber = 0;
 
 class Launch {
-  mission;
-  rocket;
-  destination;
-  launchDate;
+  mission: string;
+  rocket: string;
+  destination: string;
+  launchDate: Date;
 
-  flightNumber;
-  custumer;
-  upcoming;
-  success
+  flightNumber: number;
+  custumer: string[];
+  upcoming: boolean;
+  success: boolean;
 
-  constructor(launch) {
-
+  constructor(launch: Launch) {
     this.mission = launch.mission;
     this.rocket = launch.rocket;
     this.destination = launch.destination;
@@ -37,60 +24,41 @@ class Launch {
     this.flightNumber = latestFlightNumber += 1;
     this.success = true;
   }
-
 }
 
 class launchesModel {
-
-
   getAllLaunches() {
-
-    return Array.from(launches.values())
+    return Array.from(launches.values());
   }
 
-
-  creatrNewlaunche(launch) {
-
-    const newLaunch = new Launch(launch)
-
+  creatrNewlaunche(launch: Launch) {
+    const newLaunch = new Launch(launch);
 
     launches.set(newLaunch.flightNumber, newLaunch);
-
 
     return newLaunch;
   }
 
-
-  launchExists(flightNumber) {
-
+  launchExists(flightNumber: number) {
     const launch = launches.has(flightNumber);
 
     if (!launch) {
-
       return false;
     } else {
       return true;
     }
-
-
   }
 
-  abortLaunch(flightNumber) {
-
+  abortLaunch(flightNumber: number) {
     const aborted = launches.get(flightNumber);
 
     aborted.success = false;
     aborted.upcoming = false;
 
     return aborted;
-
   }
-
-
 }
 
-
-const LaunchesModel = new launchesModel()
-
+const LaunchesModel = new launchesModel();
 
 export default LaunchesModel;
