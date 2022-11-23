@@ -39,7 +39,8 @@ usado anteriomente. A tomada de decisão sobre qual ferramenta eu usaria e me tr
 Clone o projeto
 
 ```bash
-git clone https://github.com/ewertonribeiro/nasa_project.git```
+git clone https://github.com/ewertonribeiro/nasa_project.git
+```
 
 Entre no diretório do projeto
 
