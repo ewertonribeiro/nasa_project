@@ -10,6 +10,7 @@
     "install-server": "npm i --prefix server",
     "install-client": "npm i --prefix nasa-front-end",
     "install": "npm run install-server && npm run install-client",
+    "build": "npm run build --prefix nasa-front-end && npm run build --prefix server",
     "deploy": "npm run build --prefix nasa-front-end && npm run build --prefix server && npm start --prefix server"
   },
   "repository": {
