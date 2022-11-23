@@ -19,13 +19,12 @@ class launchesModel {
       //Default FlightNumber
       return 100;
     }
-    const [latest] = launches.sort((a, b) => a.flightNumber - b.flightNumber);
+    const [latest] = launches.sort((a, b) => b.flightNumber - a.flightNumber);
     return latest.flightNumber;
   }
 
   async creatrNewlaunche({ rocket, mission, launchDate, destination }: Launch) {
     const newFlightNumber = (await this.getLatestFlightNumber()) + 1;
-
     const newLaunch = await this.db.launch.create({
       data: {
         rocket,
@@ -58,7 +57,7 @@ class launchesModel {
     await this.launchExists(flightNumber);
     await this.db.launch.update({
       where: {
-        flightNumber,
+        flightNumber: flightNumber,
       },
       data: {
         upcoming: false,
