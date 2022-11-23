@@ -3,26 +3,35 @@ import Model from "../models/launches.model";
 
 class launchesController {
   async getAll(_: Request, res: Response) {
-    return res.status(200).json(Model.getAllLaunches());
+    const allLaunches = await Model.getAllLaunches();
+    return res.status(200).json(allLaunches);
   }
 
   async createNew(req: Request, res: Response) {
     const launch = req.body;
 
-    return res.status(201).json(Model.creatrNewlaunche(launch));
+    try {
+      const newLaunch = res
+        .status(201)
+        .json(await Model.creatrNewlaunche(launch));
+      return newLaunch;
+    } catch (error) {
+      return res.status(404).json({
+        erro: `Planet ${launch.destination} Not Found, the launch wast not created`,
+      });
+    }
   }
 
   async deleteLaunch(req: Request, res: Response) {
     //Convert to number becuse it is how was stored
     const flightNumber = Number(req.params.flightNumber);
 
-    if (!Model.launchExists(flightNumber)) {
+    try {
+      const aborted = await Model.abortLaunch(flightNumber);
+      return res.status(200).json(aborted);
+    } catch (error) {
       return res.status(404).json({ error: "Launch Not Found" });
     }
-
-    const aborted = Model.abortLaunch(flightNumber);
-
-    return res.status(200).json(aborted);
   }
 }
 

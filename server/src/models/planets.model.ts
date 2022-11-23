@@ -1,14 +1,28 @@
-import { habitablePlanets } from "../../data/data/getplanetdata";
+import { PrismaClient } from "@prisma/client";
 
 //PLanetas resultantes do csv_file
-const planets = habitablePlanets;
 
 export class planetsModel {
-  getAllPlanets(): HabitablePlanet[] {
-    return planets;
+  constructor(private db: PrismaClient) {}
+
+  async getAllPlanets(): Promise<HabitablePlanet[]> {
+    const allPlanets = await this.db.planet.findMany();
+    return allPlanets;
+  }
+
+  async createPlanets({ kepler_name }: HabitablePlanet): Promise<void> {
+    await this.db.planet.upsert({
+      where: {
+        kepler_name,
+      },
+      update: {
+        kepler_name,
+      },
+      create: {
+        kepler_name,
+      },
+    });
   }
 }
 
-const PlanetsModel = new planetsModel();
-
-export default PlanetsModel;
+export default new planetsModel(new PrismaClient());

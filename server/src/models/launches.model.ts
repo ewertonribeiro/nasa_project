@@ -1,64 +1,75 @@
-const launches = new Map();
-
-let latestFlightNumber = 0;
-
-class Launch {
-  mission: string;
-  rocket: string;
-  destination: string;
-  launchDate: Date;
-
-  flightNumber: number;
-  custumer: string[];
-  upcoming: boolean;
-  success: boolean;
-
-  constructor(launch: Launch) {
-    this.mission = launch.mission;
-    this.rocket = launch.rocket;
-    this.destination = launch.destination;
-    this.launchDate = new Date(launch.launchDate);
-
-    this.custumer = ["ZTM", "NASA"];
-    this.upcoming = true;
-    this.flightNumber = latestFlightNumber += 1;
-    this.success = true;
-  }
-}
+import { PrismaClient } from "@prisma/client";
 
 class launchesModel {
-  getAllLaunches() {
-    return Array.from(launches.values());
+  constructor(private db: PrismaClient) {}
+
+  async getAllLaunches() {
+    const launches = await this.db.launch.findMany({
+      include: {
+        destination: true,
+      },
+    });
+    return launches;
   }
 
-  creatrNewlaunche(launch: Launch) {
-    const newLaunch = new Launch(launch);
+  private async getLatestFlightNumber() {
+    const launches = await this.getAllLaunches();
 
-    launches.set(newLaunch.flightNumber, newLaunch);
+    if (launches.length == 0) {
+      //Default FlightNumber
+      return 100;
+    }
+    const [latest] = launches.sort((a, b) => a.flightNumber - b.flightNumber);
+    return latest.flightNumber;
+  }
+
+  async creatrNewlaunche({ rocket, mission, launchDate, destination }: Launch) {
+    const newFlightNumber = (await this.getLatestFlightNumber()) + 1;
+
+    const newLaunch = await this.db.launch.create({
+      data: {
+        rocket,
+        mission,
+        launchDate: new Date(launchDate),
+        flightNumber: newFlightNumber,
+
+        destination: {
+          connect: {
+            kepler_name: destination,
+          },
+        },
+      },
+    });
 
     return newLaunch;
   }
 
-  launchExists(flightNumber: number) {
-    const launch = launches.has(flightNumber);
+  async launchExists(flightNumber: number) {
+    const launch = await this.db.launch.findFirstOrThrow({
+      where: {
+        flightNumber,
+      },
+    });
 
-    if (!launch) {
-      return false;
-    } else {
-      return true;
-    }
+    return launch;
   }
 
-  abortLaunch(flightNumber: number) {
-    const aborted = launches.get(flightNumber);
+  async abortLaunch(flightNumber: number) {
+    await this.launchExists(flightNumber);
+    await this.db.launch.update({
+      where: {
+        flightNumber,
+      },
+      data: {
+        upcoming: false,
+        success: false,
+      },
+    });
 
-    aborted.success = false;
-    aborted.upcoming = false;
-
-    return aborted;
+    return { aborted: true };
   }
 }
 
-const LaunchesModel = new launchesModel();
+const LaunchesModel = new launchesModel(new PrismaClient());
 
 export default LaunchesModel;

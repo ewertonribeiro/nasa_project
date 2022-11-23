@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Launch {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  flightNumber Int @unique @default(100) @db.Int
+
+  mission    String
+  rocket     String
+  upcoming   Boolean  @default(true)
+  success    Boolean  @default(true)
+  launchDate DateTime
+  custumer   String[] @default(["ZTM", "NASA"])
+
+  planetId    String @db.ObjectId
+  destination Planet @relation(fields: [planetId], references: [id])
+}
+
+model Planet {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  kepler_name String @unique
+
+  Launch Launch[]
+}

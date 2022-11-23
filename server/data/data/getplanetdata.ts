@@ -1,14 +1,14 @@
 import { parse } from "csv-parse";
 import fs from "fs";
 
+import planetsModel from "../../src/models/planets.model";
+
 type KeplerPkanet = {
   koi_disposition: string;
   koi_insol: number;
   koi_prad: number;
   kepler_name: string;
 };
-
-const habitablePlanets: HabitablePlanet[] = [];
 
 //Funcao resonsavel por verificar quais mundos sao habitaveis
 function isHabitable(planet: KeplerPkanet) {
@@ -23,7 +23,7 @@ function isHabitable(planet: KeplerPkanet) {
 
 //funcao resonsavel por ler os dados do arquivo csv e converter em json e verificar quais sao possivelmente habitaveis
 function loadPlanetsData() {
-  return new Promise((resolve, rejects) => {
+  return new Promise<void>((resolve, rejects) => {
     fs.createReadStream("./data/kepler_data.csv")
       .pipe(
         parse({
@@ -33,16 +33,16 @@ function loadPlanetsData() {
       )
       .on("data", (chunk: KeplerPkanet) => {
         if (isHabitable(chunk)) {
-          habitablePlanets.push({ kepler_name: chunk.kepler_name });
+          planetsModel.createPlanets({ kepler_name: chunk.kepler_name });
         }
       })
       .on("error", (err) => {
         rejects(err);
       })
-      .on("end", () => {
+      .on("end", async () => {
         resolve();
       });
   });
 }
 
-export { habitablePlanets, loadPlanetsData };
+export { loadPlanetsData };
