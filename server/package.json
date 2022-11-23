@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Nasa Mission Control",
   "main": "src/server.ts",
-  "type": "module",
   "scripts": {
     "watch": "tsx watch .",
-    "start": "tsx  .",
-    "test": "vitest --watch"
+    "start": "node ./dist/src/server.js",
+    "test": "vitest --watch",
+    "build": "tsc"
   },
   "author": "Ewerton Ribeiro",
   "license": "MIT",

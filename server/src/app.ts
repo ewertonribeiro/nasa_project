@@ -7,9 +7,9 @@ import { planetsRouter } from "./routes/planets/planets.router";
 import { launchesRouter } from "./routes/launches/launches.router";
 
 //Create the __dirname variable
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import path from "path";
+// import { fileURLToPath } from "url";
+// const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
